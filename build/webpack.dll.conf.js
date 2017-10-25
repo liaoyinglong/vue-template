@@ -1,10 +1,10 @@
-var path = require('path');
-var webpack = require('webpack'); //调用webpack内置DllPlugin插件
-var ExtractTextPlugin = require('extract-text-webpack-plugin'); // 提取css
-var AssetsPlugin = require('assets-webpack-plugin'); // 生成文件名，配合HtmlWebpackPlugin增加打包后dll的缓存
-var CleanWebpackPlugin = require('clean-webpack-plugin'); //清空文件夹
-var config = require('../config');
-var env = config.build.env;
+var path = require('path')
+var webpack = require('webpack') //调用webpack内置DllPlugin插件
+var ExtractTextPlugin = require('extract-text-webpack-plugin') // 提取css
+var AssetsPlugin = require('assets-webpack-plugin') // 生成文件名，配合HtmlWebpackPlugin增加打包后dll的缓存
+var CleanWebpackPlugin = require('clean-webpack-plugin') //清空文件夹
+var config = require('../config')
+var env = config.build.env
 
 module.exports = {
   entry: {
@@ -57,4 +57,4 @@ module.exports = {
       },
     ],
   },
-};
+}

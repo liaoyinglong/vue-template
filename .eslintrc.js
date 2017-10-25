@@ -15,9 +15,9 @@ module.exports = {
   ],
   // add your custom rules here
   'rules': {
-    "semi": [           // 结尾分必加
+    "semi": [
       "error",
-      "always"
+      "never"
     ]
   },
   "parserOptions": {    // 解析es6

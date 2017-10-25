@@ -1,16 +1,16 @@
-var path = require("path");
-var utils = require("./utils");
-var webpack = require("webpack");
-var config = require("../config");
-var merge = require("webpack-merge");
-var baseWebpackConfig = require("./webpack.base.conf");
-var CopyWebpackPlugin = require("copy-webpack-plugin");
-var HtmlWebpackPlugin = require("html-webpack-plugin");
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var OptimizeCSSPlugin = require("optimize-css-assets-webpack-plugin");
-var bundleConfig = require("../libs/bundle-config.json"); //调入生成的的路径json
-var ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
-var env = config.build.env;
+var path = require("path")
+var utils = require("./utils")
+var webpack = require("webpack")
+var config = require("../config")
+var merge = require("webpack-merge")
+var baseWebpackConfig = require("./webpack.base.conf")
+var CopyWebpackPlugin = require("copy-webpack-plugin")
+var HtmlWebpackPlugin = require("html-webpack-plugin")
+var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var OptimizeCSSPlugin = require("optimize-css-assets-webpack-plugin")
+var bundleConfig = require("../libs/bundle-config.json") //调入生成的的路径json
+var ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
+var env = config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -93,7 +93,7 @@ var webpackConfig = merge(baseWebpackConfig, {
           module.resource &&
           /\.js$/.test(module.resource) &&
           module.resource.indexOf(path.join(__dirname, "../node_modules")) === 0
-        );
+        )
       }
     }),
     // extract webpack runtime and module manifest to its own file in order to
@@ -116,10 +116,10 @@ var webpackConfig = merge(baseWebpackConfig, {
       }
     ])
   ]
-});
+})
 
 if (config.build.productionGzip) {
-  var CompressionWebpackPlugin = require("compression-webpack-plugin");
+  var CompressionWebpackPlugin = require("compression-webpack-plugin")
 
   webpackConfig.plugins.push(
     new CompressionWebpackPlugin({
@@ -131,13 +131,13 @@ if (config.build.productionGzip) {
       threshold: 10240,
       minRatio: 0.8
     })
-  );
+  )
 }
 
 if (config.build.bundleAnalyzerReport) {
   var BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-    .BundleAnalyzerPlugin;
-  webpackConfig.plugins.push(new BundleAnalyzerPlugin());
+    .BundleAnalyzerPlugin
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-module.exports = webpackConfig;
+module.exports = webpackConfig

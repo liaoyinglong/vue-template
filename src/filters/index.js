@@ -7,10 +7,10 @@
 export function sex(val) {
   switch (+val) {
     case 1:
-      return "男";
+      return "男"
     case 2:
-      return "女";
+      return "女"
     default:
-      return "";
+      return ""
   }
 }
