@@ -17,9 +17,6 @@ module.exports = {
       'echarts',
       'mockjs',
       // "element-ui/lib/theme-default/index.css"
-
-      // 'mint-ui',
-      // 'mint-ui/lib/style.css',
     ],
   },
   output: {
@@ -57,37 +54,6 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        // include: [resolve('src'), resolve('test'), resolve('node_modules/element-ui')],
-      },
-      {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: true, //启用压缩
-              },
-            },
-          ],
-        }),
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 10000,
-          name: 'img/[name].[hash:7].[ext]',
-        },
-      },
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 10000,
-          name: 'fonts/[name].[hash:7].[ext]',
-        },
       },
     ],
   },

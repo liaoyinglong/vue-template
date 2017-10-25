@@ -39,7 +39,6 @@ module.exports = {
     jquery: 'jQuery',
   },
   module: {
-    noParse: /node_modules\/(element-ui\.js)/,
     rules: [
       {
         test: /\.(js|vue)$/,
