@@ -6,7 +6,7 @@
 - 启用`DllPlugin`和`DllReferencePlugin`预编译库文件
 - `happypack`开启多核构建项目
 - 将`webpack-parallel-uglify-plugin`来替换`webpack`本身的`UglifyJS`来进行代码压缩混淆
-
+- 升级`webpack`至3.x版本开启`Scope Hoisting`
 
 
 ### externals
@@ -34,7 +34,7 @@
 1. 在`build`文件夹下新建`webpack.dll.conf.js`文件
 ```javascript
 var path = require('path');
-var webpack = require('webpack'); //调用webpack内置DllPlugin插件
+var webpack = require('webpack');
 var AssetsPlugin = require('assets-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var config = require('../config');
@@ -127,7 +127,7 @@ rm(path.resolve(__dirname, "../libs"), err => {
 ```
 3. 修改`webpack.prod.conf.js`文件
 ```javascript
-var bundleConfig = require("../libs/bundle-config.json"); //调入生成的的路径json
+var bundleConfig = require("../libs/bundle-config.json");
 ...
 ...
 plugins: [
@@ -185,4 +185,81 @@ plugins: [
 ### happypack
 > 文档地址 https://github.com/amireh/happypack
 >
+> 一般node.js是单线程执行编译，而happypack则是启动node的多线程进行构建，大大提高了构建速度。
 >
+>在插件中new一个新的happypack进程出来，然后再使用使用loader的地方替换成对应的id
+
+1. 修改`webpack.base.conf.js`文件
+```javascript
+var HappyPack = require('happypack');
+var os = require('os');
+var happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
+...
+...
+// 增加plugins
+ plugins: [
+  new HappyPack({
+    id: 'happy-babel-js',
+    loaders: ['babel-loader?cacheDirectory=true'],
+    threadPool: happyThreadPool,
+  })
+]
+...
+...
+// 修改对应loader
+{
+  test: /\.js$/,
+  loader: 'happypack/loader?id=happy-babel-js',
+  include: [resolve('src'), resolve('test')],
+}
+```
+
+### webpack-parallel-uglify-plugin
+> 文档地址 https://github.com/gdborton/webpack-parallel-uglify-plugin
+>
+> `webpack`提供的`UglifyJS`插件由于采用单线程压缩，速度很慢 ,
+`webpack-parallel-uglify-plugin`插件可以并行运行`UglifyJS`插件，这可以有效减少构建时间。
+
+1. 修改`webpack.prod.conf.js`文件
+```javascript
+var ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+...
+...
+// 删掉webpack提供的UglifyJS插件
+// new webpack.optimize.UglifyJsPlugin({
+//   compress: {
+//     warnings: false,
+//     drop_console: true
+//   },
+//   sourceMap: true
+// }),
+// 增加 webpack-parallel-uglify-plugin来替换
+new ParallelUglifyPlugin({
+  cacheDir: '.cache/',
+  uglifyJS:{
+    output: {
+      comments: false
+    },
+    compress: {
+      warnings: false
+    }
+  }
+}),
+```
+
+
+### webpack 3
+> webpack3新特性一览 https://juejin.im/entry/5971483951882552681c4a30
+>
+> webpack 3.x 提供了一个新的功能：Scope Hoisting，又译作“作用域提升”。只需在配置文件中添加一个新的插件，就可以让 Webpack 打包出来的代码文件更小、运行的更快。
+
+1. 修改`webpack.prod.conf.js`
+```javascript
+...
+...
+plugins: [
+  // 往plugins添加一个配置
+  // ps 只针对es6的模块化有效
+  new webpack.optimize.ModuleConcatenationPlugin(),
+]
+```

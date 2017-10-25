@@ -9,9 +9,7 @@ var happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
 }
-Object.assign(vueLoaderConfig.loaders, {
-  js: 'happypack/loader?id=happy-babel-vue',
-});
+
 function createHappyPlugin(id, loaders) {
   return new HappyPack({
     id: id,
@@ -19,6 +17,7 @@ function createHappyPlugin(id, loaders) {
     threadPool: happyThreadPool,
   });
 }
+
 module.exports = {
   entry: {
     app: ['babel-polyfill', './src/main.js'],
@@ -57,7 +56,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'happypack/loader?id=happy-babel-js',
-        include: [resolve('src'), resolve('test')],
+        include: [resolve('src')],
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -85,8 +84,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    createHappyPlugin('happy-babel-js', ['babel-loader?cacheDirectory=true']),
-    createHappyPlugin('happy-babel-vue', ['babel-loader?cacheDirectory=true']),
-  ],
+  plugins: [createHappyPlugin('happy-babel-js', ['babel-loader?cacheDirectory=true'])],
 };
