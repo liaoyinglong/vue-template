@@ -15,7 +15,6 @@ module.exports = {
       'vuex',
       'element-ui',
       'echarts',
-      'mockjs',
       // "element-ui/lib/theme-default/index.css"
     ],
   },
