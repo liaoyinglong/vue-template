@@ -1,5 +1,5 @@
 # **vue-cli已经发布了3.0正式版，已经升级了`webpack`4.0，使用vue-cli3.0的小伙伴已经不在需要以下优化了**
-# 基于`vue-cli`优化的`webpack`配置
+# ~~基于`vue-cli`优化的`webpack`配置~~
 大概分为以下几点
 - 通过 `externals` 配置来提取常用库，引用外链
 - 配置`CommonsChunkPlugin`提取公用代码 （`vue-cli`已做）
